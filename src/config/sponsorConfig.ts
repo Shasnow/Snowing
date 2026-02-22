@@ -12,7 +12,7 @@ export const sponsorConfig: SponsorConfig = {
 		"您的赞助将用于服务器维护、内容创作和功能开发，帮助我持续提供优质内容。",
 
 	// 是否显示赞助者列表
-	showSponsorsList: true,
+	showSponsorsList: false,
 
 	// 是否在文章详情页底部显示赞助按钮
 	showButtonInPost: true,
@@ -42,7 +42,7 @@ export const sponsorConfig: SponsorConfig = {
 			qrCode: "",
 			link: "https://ko-fi.com/cuteleaf",
 			description: "Buy a Coffee for Firefly",
-			enabled: true,
+			enabled: false,
 		},
 		{
 			name: "爱发电",
@@ -50,7 +50,7 @@ export const sponsorConfig: SponsorConfig = {
 			qrCode: "",
 			link: "https://afdian.com/a/cuteleaf",
 			description: "通过 爱发电 进行赞助",
-			enabled: true,
+			enabled: false,
 		},
 	],
 

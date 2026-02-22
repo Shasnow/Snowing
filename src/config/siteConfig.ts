@@ -1,42 +1,55 @@
-import type {SiteConfig} from "@/types/config";
-import {fontConfig} from "./fontConfig";
+import type { SiteConfig } from "@/types/config";
+import { fontConfig } from "./fontConfig";
 
 // 定义站点语言
 // 语言代码，例如：'zh_CN', 'zh_TW', 'en', 'ja', 'ru'。
 const SITE_LANG = "zh_CN";
 
 export const siteConfig: SiteConfig = {
-    title: "雪落无影",
-    subtitle: "分享",
-    site_url: "https://shasnow.top",
-    description:
-        "",
-    keywords: [
+	// 站点标题
+	title: "雪落无影",
+
+	// 站点副标题
+	subtitle: "分享",
+
+	// 站点 URL
+	site_url: "https://shasnow.top",
+
+	// 站点描述
+	description:
+		"Firefly 是一款基于 Astro 框架和 Fuwari 模板开发的清新美观且现代化个人博客主题模板，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。",
+
+	// 站点关键词
+	keywords: [
         "Shasnow",
-        "Firefly",
-        "Fuwari",
-        "Astro",
-        "ACGN",
-        "博客",
-        "技术博客",
-        "静态博客",
-    ],
+		"Firefly",
+		"Fuwari",
+		"Astro",
+		"ACGN",
+		"博客",
+		"技术博客",
+		"静态博客",
+	],
 
-    // 主题色
-    themeColor: {
-        // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
-        hue: 165,
-        // 是否对访问者隐藏主题色选择器
-        fixed: false,
-        // 默认模式："light" 亮色，"dark" 暗色，"system" 跟随系统
-        defaultMode: "system",
-    },
+	// 主题色
+	themeColor: {
+		// 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+		hue: 165,
+		// 是否对访问者隐藏主题色选择器
+		fixed: false,
+		// 默认模式："light" 亮色，"dark" 暗色，"system" 跟随系统
+		defaultMode: "system",
+	},
 
-    // 网站Card样式配置
-    card: {
-        // 是否开启卡片边框和阴影，开启后让网站更有立体感
-        border: true,
-    },
+	// 页面整体宽度（单位：rem）
+	// 数值越大可以让页面内容区域更宽
+	pageWidth: 100,
+
+	// 网站Card样式配置
+	card: {
+		// 是否开启卡片边框和阴影，开启后让网站更有立体感
+		border: true,
+	},
 
     // Favicon 配置
     favicon: [

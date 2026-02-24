@@ -132,22 +132,20 @@ export const siteConfig: SiteConfig = {
     // 分类导航栏开关，在首页和归档页顶部显示分类快捷导航
     categoryBar: true,
 
-    // 文章列表布局配置
-    postListLayout: {
-        // 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（多列布局）
-        defaultMode: "list",
-        // 是否允许用户切换布局
-        allowSwitch: true,
-        // 网格布局配置，仅在 defaultMode 为 "grid" 或允许切换布局时生效
-        grid: {
-            // 是否开启瀑布流布局，同时有封面图和无封面图的混合文章推荐开启
-            masonry: false,
-            // 网格模式列数：2 或 3
-            // 2列是默认模式，在任何侧边栏配置下均可生效
-            // 3列模式仅在单侧边栏（或无侧边栏）时生效，
-            columns: 3,
-        },
-    },
+	// 文章列表布局配置
+	postListLayout: {
+		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（多列布局）
+		defaultMode: "list",
+		// 是否允许用户切换布局
+		allowSwitch: true,
+		// 网格布局配置，仅在 defaultMode 为 "grid" 或允许切换布局时生效
+		grid: {
+			// 是否开启瀑布流布局，同时有封面图和无封面图的混合文章推荐开启
+			masonry: false,
+			// 网格模式卡片最小宽度(px)，浏览器根据容器宽度自动计算列数，默认 280
+			columnWidth: 320,
+		},
+	},
 
     // 分页配置
     pagination: {

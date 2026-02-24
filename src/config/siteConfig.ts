@@ -115,16 +115,18 @@ export const siteConfig: SiteConfig = {
         userId: "",
     },
 
-    // 页面开关配置 - 控制特定页面的访问权限，设为false会返回404
-    // bangumi的数据为编译时获取的，所以不是实时数据，请配置bangumi.userId
-    pages: {
-        // 赞助页面开关
-        sponsor: true,
-        // 留言板页面开关，需要配置评论系统
-        guestbook: true,
-        // 番组计划页面开关，含追番、游戏、书籍和音乐，dev调试时只获取一页数据，build才会获取全部数据
-        bangumi: false,
-    },
+	// 页面开关配置 - 控制特定页面的访问权限，设为false会返回404
+	// bangumi的数据为编译时获取的，所以不是实时数据，请配置bangumi.userId
+	pages: {
+		// 赞助页面开关
+		sponsor: true,
+		// 留言板页面开关，需要配置评论系统
+		guestbook: true,
+		// 番组计划页面开关，含追番、游戏、书籍和音乐，dev调试时只获取一页数据，build才会获取全部数据
+		bangumi: false,
+		// 相册页面开关
+		gallery: true,
+	},
 
     // 分类导航栏开关，在首页和归档页顶部显示分类快捷导航
     categoryBar: true,

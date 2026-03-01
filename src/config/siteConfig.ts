@@ -110,11 +110,15 @@ export const siteConfig: SiteConfig = {
 	// OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	generateOgImages: false,
 
-    // bangumi配置
-    bangumi: {
-        // Bangumi用户ID
-        userId: "",
-    },
+	// bangumi配置
+	bangumi: {
+		// Bangumi用户ID
+		userId: "",
+		// 条目类型排序，数组中的类型将按顺序优先展示
+		// 可选值: "anime" | "book" | "music" | "game" | "real" (暂不支持"real"类型)
+		// 未列出的类型将按默认顺序排在后面
+		categoryOrder: ["anime", "book", "music", "game"],
+	},
 
 	// 页面开关配置 - 控制特定页面的访问权限，设为false会返回404
 	// bangumi的数据为编译时获取的，所以不是实时数据，请配置bangumi.userId
@@ -147,19 +151,19 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 
-    // 分页配置
-    pagination: {
-        // 每页显示的文章数量
-        postsPerPage: 10,
-    },
+	// 分页配置
+	pagination: {
+		// 每页显示的文章数量
+		postsPerPage: 10,
+	},
 
-    // 统计分析
-    analytics: {
-        // Google Analytics ID
-        googleAnalyticsId: "",
-        // Microsoft Clarity ID
-        microsoftClarityId: "",
-    },
+	// 统计分析
+	analytics: {
+		// Google Analytics ID
+		googleAnalyticsId: "",
+		// Microsoft Clarity ID
+		microsoftClarityId: "",
+	},
 
 	// 图像优化及响应式配置
 	// 图像优化压缩只保留avif或webp
@@ -180,10 +184,10 @@ export const siteConfig: SiteConfig = {
 		noReferrerDomains: [],
 	},
 
-    // 字体配置
-    // 在src/config/fontConfig.ts中配置具体字体
-    font: fontConfig,
+	// 字体配置
+	// 在src/config/fontConfig.ts中配置具体字体
+	font: fontConfig,
 
-    // 站点语言，在本配置文件顶部SITE_LANG定义
-    lang: SITE_LANG,
+	// 站点语言，在本配置文件顶部SITE_LANG定义
+	lang: SITE_LANG,
 };

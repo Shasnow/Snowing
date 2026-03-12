@@ -114,15 +114,10 @@ export const siteConfig: SiteConfig = {
     // OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
     generateOgImages: false,
 
-    // bangumi配置
-    bangumi: {
-        // Bangumi用户ID
-        userId: "",
-    },
 	// bangumi配置
 	bangumi: {
 		// Bangumi用户ID
-		userId: "1143164",
+		userId: "",
 		// 条目类型排序，数组中的类型将按顺序优先展示
 		// 可选值: "anime" | "book" | "music" | "game" | "real" (暂不支持"real"类型)
 		// 未列出的类型将按默认顺序排在后面

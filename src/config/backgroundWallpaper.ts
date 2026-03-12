@@ -76,7 +76,9 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			titleSize: "3.8rem",
 			// 主页横幅副标题
 			subtitle: [
-				"Bon voyage"
+				"Bon voyage",
+				"May your path be clear",
+				"May you get to where dreams are all crystalline and sweet"
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",

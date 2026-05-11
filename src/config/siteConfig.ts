@@ -150,6 +150,10 @@ export const siteConfig: SiteConfig = {
 		defaultMode: "list",
 		// 移动端默认布局模式，不设置则跟随 defaultMode
 		mobileDefaultMode: "list",
+		// 是否在文章列表中显示标签
+		showTags: true,
+		// 文章简介显示行数，设为 0 则不截断
+		descriptionLines: 2,
 		// 是否允许用户切换布局
 		allowSwitch: true,
 		// 网格布局配置，仅在 defaultMode 为 "grid" 或允许切换布局时生效
@@ -179,6 +183,23 @@ export const siteConfig: SiteConfig = {
 			websiteId: "",
 			// Umami JS地址，支持使用自建
 			scriptUrl: "https://cloud.umami.is/script.js",
+			// 是否追踪出站链接
+			trackOutboundLinks: true,
+			// 是否收集浏览器性能指标
+			collectWebVitals: false,
+			// 会话回放配置
+			relpays: {
+				// 是否启用会话回放
+				enabled: false,
+				// 录制会话采样率，范围 0-1，例如 0.15 表示记录 15% 的会话
+				sampleRate: 0.15,
+				// 隐私遮罩级别："moderate" 会遮罩所有输入框；"strict" 额外遮罩页面全部文本
+				maskLevel: "moderate",
+				// 单次录制最大时长（毫秒）
+				maxDuration: 300000,
+				// 需要排除录制的元素 CSS 选择器，例如 ".sensitive-widget"
+				blockSelector: "",
+			},
 		},
 		// 51la 统计配置
 		la51Analytics: {

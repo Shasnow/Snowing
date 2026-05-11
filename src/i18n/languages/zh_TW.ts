@@ -19,7 +19,7 @@ export const zh_TW: Translation = {
 	[Key.categories]: "分類",
 	[Key.recentPosts]: "最新文章",
 	[Key.postList]: "文章列表",
-	[Key.tableOfContents]: "目錄",
+	[Key.tableOfContents]: "文章目錄",
 	[Key.tocEmpty]: "目前頁面沒有目錄",
 	[Key.music]: "音樂",
 	[Key.musicNoPlaying]: "暫未播放",
@@ -73,6 +73,7 @@ export const zh_TW: Translation = {
 	[Key.systemMode]: "跟隨系統",
 
 	[Key.more]: "更多",
+	[Key.collapse]: "收起",
 
 	[Key.author]: "作者",
 	[Key.publishedAt]: "發布於",
@@ -207,13 +208,18 @@ export const zh_TW: Translation = {
 	// 壁紙模式
 	[Key.wallpaperMode]: "壁紙模式",
 	[Key.wallpaperBannerMode]: "橫幅壁紙",
+	[Key.wallpaperFullscreenMode]: "全屏壁紙",
 	[Key.wallpaperOverlayMode]: "全屏透明",
 	[Key.wallpaperNoneMode]: "純色背景",
 
-	// 橫幅設置
-	[Key.bannerSettings]: "橫幅設置",
-	[Key.bannerTitle]: "首頁橫幅標題",
+	// 壁紙設置
+	[Key.wallpaperSettings]: "壁紙設置",
+	[Key.wallpaperTitle]: "首頁壁紙標題",
+	[Key.wallpaperCarousel]: "壁紙輪播",
 	[Key.wavesAnimation]: "水波紋動畫",
+	[Key.gradientTransition]: "漸變過渡",
+	[Key.sakuraEffect]: "櫻花特效",
+	[Key.effectsSettings]: "特效設定",
 	[Key.overlaySettings]: "透明設定",
 	[Key.overlayOpacity]: "桌布透明度",
 	[Key.overlayBlur]: "背景模糊度",
@@ -286,8 +292,8 @@ export const zh_TW: Translation = {
 	[Key.scanToRead]: "掃碼閱讀文章",
 
 	// 代碼區塊折疊配置
-	[Key.codeCollapsibleShowMore]: "顯示更多",
-	[Key.codeCollapsibleShowLess]: "顯示更少",
+	[Key.codeCollapsibleShowMore]: "展開",
+	[Key.codeCollapsibleShowLess]: "收起",
 	[Key.codeCollapsibleExpanded]: "代碼區塊已展開",
 	[Key.codeCollapsibleCollapsed]: "代碼區塊已折疊",
 

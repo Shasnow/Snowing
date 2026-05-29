@@ -3,7 +3,7 @@ title: POCO（Plain Old CLR Object）简介
 published: 2026-03-22
 pinned: false
 description: 介绍 POCO（Plain Old CLR Object）的概念、特征以及在现代 C# 开发中的应用，特别是在领域驱动设计（DDD）和 ORM（如 Entity Framework Core）中的重要性。
-tags: [ POCO, C#, DDD, ORM ]
+tags: [ POCO, C#, ORM ]
 category: C#
 licenseName: "Unlicensed"
 draft: false

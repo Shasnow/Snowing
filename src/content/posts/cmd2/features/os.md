@@ -107,7 +107,8 @@ pubDate: 2026-05-28
 1. 带参数调用 `cmd2` 应用的能力
 2. 离开 `cmd2` 应用时设置退出码的能力
 3. 使用 `quit` 命令退出 `cmd2` 应用的能力
-
-    $ python examples/cmd_as_argument.py "speak -p hello there" quit
-    ellohay heretay
-    $
+```
+$ python examples/cmd_as_argument.py "speak -p hello there" quit
+ellohay heretay
+$
+```

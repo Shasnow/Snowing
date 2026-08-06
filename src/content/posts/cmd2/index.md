@@ -10,7 +10,7 @@ draft: false
 date: 2026-05-28
 pubDate: 2026-05-28
 ---
-本系列文档基于 [cmd2 官方文档](https://cmd2.readthedocs.io/en/latest/) 3.5.1 版本翻译和修改。
+本系列文档基于 [cmd2 官方文档](https://cmd2.readthedocs.io/en/latest/) 翻译和修改，适用于 cmd2>=4.0.0
 
 ::github{repo="python-cmd2/cmd2"}
 

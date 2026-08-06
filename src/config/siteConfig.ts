@@ -12,7 +12,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "分享",
 
 	// 站点 URL
-	site_url: "https://firefly.cuteleaf.cn",
+	site_url: "https://shasnow.top",
 
 	// 站点描述
 	description:
@@ -113,7 +113,7 @@ export const siteConfig: SiteConfig = {
 		// 相册页面开关
 		gallery: true,
 		// 追番页面开关
-		anime: true,
+		anime: false,
 		// 动态页面开关
 		dynamic: true,
 		// 书签导航页面开关

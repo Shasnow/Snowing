@@ -7,8 +7,6 @@ tags: [Python, CLI, cmd2]
 category: Python
 licenseName: "Unlicensed"
 draft: false
-date: 2026-05-28
-pubDate: 2026-05-28
 ---
 本系列文档基于 [cmd2 官方文档](https://cmd2.readthedocs.io/en/latest/) 翻译和修改，适用于 cmd2>=4.0.0
 

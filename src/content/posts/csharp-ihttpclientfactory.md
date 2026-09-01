@@ -7,8 +7,6 @@ tags: [C#, HTTP, HttpClient, IHttpClientFactory, 依赖注入]
 category: C#
 licenseName: "Unlicensed"
 draft: false
-date: 2026-05-16
-pubDate: 2026-05-16
 ---
 
 # C# 中 IHttpClientFactory 的介绍和最佳实践

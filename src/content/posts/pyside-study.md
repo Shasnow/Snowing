@@ -1,14 +1,13 @@
 ---
 title: PySide6 学习笔记
-published: 2025-11-27
+published: 2025-06-20
+updated: 2025-11-27
 pinned: false
 description: 本教程介绍了PySide6的基础知识和使用方法，包括窗口与组件、布局管理、Qt Designer的使用以及信号与槽机制等内容，帮助初学者快速上手PySide6进行GUI开发。
 tags: [PySide6, Qt Designer, GUI, Python]
 category: Python
 licenseName: "Unlicensed"
 draft: false
-date: 2025-06-20
-pubDate: 2025-11-27
 ---
 
 # PySide6

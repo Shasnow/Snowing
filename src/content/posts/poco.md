@@ -7,8 +7,6 @@ tags: [ POCO, C#, ORM ]
 category: C#
 licenseName: "Unlicensed"
 draft: false
-date: 2026-03-22
-pubDate: 2026-03-22
 ---
 
 POCO 是 Plain Old CLR Object 的缩写，直译为“简单的旧 CLR 对象”。

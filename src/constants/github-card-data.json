@@ -5,10 +5,22 @@
 		"avatarUrl": "https://avatars.githubusercontent.com/u/43440669?v=4",
 		"license": "MIT"
 	},
+	"python-cmd2/cmd2": {
+		"description": "cmd2 - quickly build feature-rich and user-friendly interactive command line applications in Python",
+		"language": "Python",
+		"avatarUrl": "https://avatars.githubusercontent.com/u/17161025?v=4",
+		"license": "MIT"
+	},
 	"saicaca/fuwari": {
 		"description": "✨A static blog template built with Astro. ",
 		"language": "Astro",
 		"avatarUrl": "https://avatars.githubusercontent.com/u/25200299?v=4",
 		"license": "MIT"
+	},
+	"shasnow/starrailassistant": {
+		"description": "崩坏星穹铁道自动化助手，帮你完成从启动到退出的崩铁日常 | 多账号托管 | 货币战争自动化",
+		"language": "Python",
+		"avatarUrl": "https://avatars.githubusercontent.com/u/183061798?v=4",
+		"license": "GPL-3.0"
 	}
 }

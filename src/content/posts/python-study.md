@@ -7,8 +7,6 @@ tags: [Python, Tutorial, Programming, Basics]
 category: Python
 licenseName: "Unlicensed"
 draft: false
-date: 2025-06-20
-pubDate: 2025-11-27
 ---
 
 # 学习

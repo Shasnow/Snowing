@@ -7,8 +7,6 @@ tags: [Avalonia, C#, GUI]
 category: C#
 licenseName: "Unlicensed"
 draft: false
-date: 2025-11-29
-pubDate: 2025-11-29
 ---
 
 # Avalonia 动态加载图片

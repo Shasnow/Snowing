@@ -7,8 +7,6 @@ tags: [Python, CLI, cmd2]
 category: Python
 licenseName: "Unlicensed"
 draft: false
-date: 2026-05-28
-pubDate: 2026-05-28
 ---
 
 # 快捷方式、别名与宏

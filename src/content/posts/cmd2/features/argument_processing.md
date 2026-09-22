@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：参数处理详解
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 详细介绍 cmd2 的参数处理功能，包括使用 argparse 装饰器、参数解析、帮助消息、子命令等高级特性。
 tags: [Python, CLI, cmd2]
@@ -19,13 +20,17 @@ draft: false
 4. 将参数解析器的用法信息添加到命令的帮助文档中
 5. 检查是否存在 `-h/--help` 选项，如果存在则显示命令的帮助信息
 
-这些功能都由从 `cmd2` 导入的 `@with_argparser` 装饰器提供。
+这些功能由两个装饰器提供：
 
-参阅 [argparse_example](https://github.com/python-cmd2/cmd2/blob/main/examples/argparse_example.py) 示例，了解更多关于如何在 `cmd2` 应用中使用各种参数处理装饰器的信息。
+- `@with_argparser` -- 通过手动调用 `add_argument()` 构建解析器
+- `@with_annotated` -- 根据类型注解自动构建解析器
+
+参阅 [argparse_completion](https://github.com/python-cmd2/cmd2/blob/main/examples/argparse_completion.py) 和 [annotated_example](https://github.com/python-cmd2/cmd2/blob/main/examples/annotated_example.py) 示例，并排比较这两种风格。
 
 `cmd2` 提供了以下装饰器来辅助解析传递给命令的参数：
 
 - `cmd2.decorators.with_argparser`
+- `cmd2.annotated.with_annotated`
 - `cmd2.decorators.with_argument_list`
 
 所有这些装饰器都接受一个可选的 **preserve_quotes** 参数，默认值为 `False`。将此参数设为 `True` 在你需要将参数传递给另一个可能有自己参数解析逻辑的命令时非常有用。
@@ -44,6 +49,14 @@ draft: false
 由于 `@with_argparser` 装饰器会对提供的解析器进行深拷贝，如果你希望稍后动态修改该解析器，你需要获取这个深拷贝。可以通过 `self.command_parsers.get(self.do_commandname)` 来实现。
 :::
 
+## with_annotated 装饰器
+
+:::warning
+`@with_annotated` 装饰器是**实验性**的，其 API 可能在未来版本中发生变化。
+:::
+
+`@with_annotated` 装饰器会根据被装饰函数的类型注解自动构建 argparse 解析器——无需手动调用 `add_argument()`。完整参考请参阅 [Annotated 参数处理](../annotated/)，包括类型映射、元数据类、子命令和稳定性方面的注意事项。
+
 ## 参数解析
 
 对于 `cmd2.Cmd` 子类中每个需要参数解析的命令，创建一个 `Cmd2ArgumentParser` 实例来适当地解析该命令的输入（或提供一个返回此类解析器的函数/方法）。然后用 `@with_argparser` 装饰器装饰命令方法，将参数解析器作为装饰器的第一个参数传递。这会改变命令方法的第二个参数，该参数将包含 `Cmd2ArgumentParser.parse_args()` 的结果。
@@ -54,17 +67,18 @@ draft: false
 from cmd2 import Cmd2ArgumentParser, with_argparser
 
 argparser = Cmd2ArgumentParser()
-argparser.add_argument('-p', '--piglatin', action='store_true', help='atinLay')
-argparser.add_argument('-s', '--shout', action='store_true', help='N00B EMULATION MODE')
-argparser.add_argument('-r', '--repeat', type=int, help='output [n] times')
-argparser.add_argument('word', nargs='?', help='word to say')
+argparser.add_argument("-p", "--piglatin", action="store_true", help="atinLay")
+argparser.add_argument("-s", "--shout", action="store_true", help="N00B EMULATION MODE")
+argparser.add_argument("-r", "--repeat", type=int, help="output [n] times")
+argparser.add_argument("word", nargs="?", help="word to say")
+
 
 @with_argparser(argparser)
 def do_speak(self, opts):
     """Repeats what you tell me to."""
     arg = opts.word
     if opts.piglatin:
-        arg = '%s%say' % (arg[1:], arg[0])
+        arg = "%s%say" % (arg[1:], arg[0])
     if opts.shout:
         arg = arg.upper()
     repetitions = opts.repeat or 1
@@ -92,13 +106,15 @@ def do_speak(self, opts):
 from cmd2 import Cmd2ArgumentParser, with_argparser
 
 argparser = Cmd2ArgumentParser()
-argparser.add_argument('tag', help='tag')
-argparser.add_argument('content', nargs='+', help='content to surround with tag')
+argparser.add_argument("tag", help="tag")
+argparser.add_argument("content", nargs="+", help="content to surround with tag")
+
+
 @with_argparser(argparser)
 def do_tag(self, args):
     """Create an HTML tag"""
-    self.stdout.write('<{0}>{1}</{0}>'.format(args.tag, ' '.join(args.content)))
-    self.stdout.write('\n')
+    self.stdout.write("<{0}>{1}</{0}>".format(args.tag, " ".join(args.content)))
+    self.stdout.write("\n")
 ```
 
 `help tag` 命令将显示：
@@ -121,13 +137,15 @@ optional arguments:
 ```py
 from cmd2 import Cmd2ArgumentParser, with_argparser
 
-argparser = Cmd2ArgumentParser(description='create an HTML tag')
-argparser.add_argument('tag', help='tag')
-argparser.add_argument('content', nargs='+', help='content to surround with tag')
+argparser = Cmd2ArgumentParser(description="create an HTML tag")
+argparser.add_argument("tag", help="tag")
+argparser.add_argument("content", nargs="+", help="content to surround with tag")
+
+
 @with_argparser(argparser)
 def do_tag(self, args):
-    self.stdout.write('<{0}>{1}</{0}>'.format(args.tag, ' '.join(args.content)))
-    self.stdout.write('\n')
+    self.stdout.write("<{0}>{1}</{0}>".format(args.tag, " ".join(args.content)))
+    self.stdout.write("\n")
 ```
 
 现在当用户输入 `help tag` 时会看到：
@@ -150,14 +168,17 @@ optional arguments:
 ```py
 from cmd2 import Cmd2ArgumentParser, with_argparser
 
-argparser = Cmd2ArgumentParser(description='create an HTML tag',
-                                epilog='This command cannot generate tags with no content, like <br/>.')
-argparser.add_argument('tag', help='tag')
-argparser.add_argument('content', nargs='+', help='content to surround with tag')
+argparser = Cmd2ArgumentParser(
+    description="create an HTML tag", epilog="This command cannot generate tags with no content, like <br/>."
+)
+argparser.add_argument("tag", help="tag")
+argparser.add_argument("content", nargs="+", help="content to surround with tag")
+
+
 @with_argparser(argparser)
 def do_tag(self, args):
-    self.stdout.write('<{0}>{1}</{0}>'.format(args.tag, ' '.join(args.content)))
-    self.stdout.write('\n')
+    self.stdout.write("<{0}>{1}</{0}>".format(args.tag, " ".join(args.content)))
+    self.stdout.write("\n")
 ```
 
 结果如下：
@@ -199,7 +220,7 @@ This command cannot generate tags with no content, like <br/>
 
 ```py
 class CmdLineApp(cmd2.Cmd):
-    """ Example cmd2 application. """
+    """Example cmd2 application."""
 
     def do_say(self, statement):
         # statement contains a string
@@ -224,8 +245,9 @@ class CmdLineApp(cmd2.Cmd):
 ```py
 from cmd2 import with_argument_list
 
+
 class CmdLineApp(cmd2.Cmd):
-    """ Example cmd2 application. """
+    """Example cmd2 application."""
 
     def do_say(self, cmdline):
         # cmdline contains a string
@@ -247,8 +269,8 @@ class CmdLineApp(cmd2.Cmd):
 from cmd2 import Cmd2ArgumentParser, with_argparser
 
 dir_parser = Cmd2ArgumentParser()
-dir_parser.add_argument('-l', '--long', action='store_true',
-                        help="display in long format with one item per line")
+dir_parser.add_argument("-l", "--long", action="store_true", help="display in long format with one item per line")
+
 
 @with_argparser(dir_parser, with_unknown_args=True)
 def do_dir(self, args, unknown):
@@ -256,8 +278,8 @@ def do_dir(self, args, unknown):
     # No arguments for this command
     if unknown:
         self.perror("dir does not take any positional arguments:")
-        self.do_help('dir')
-        self.last_result = 'Bad arguments'
+        self.do_help("dir")
+        self.last_result = "Bad arguments"
         return
 
     # Get the contents as a list
@@ -344,4 +366,4 @@ def do_bar(self, args: argparse.Namespace) -> None:
 `cmd2` 的 `@with_argparser` 装饰器会向 argparse Namespace 添加以下属性。为避免命名冲突，请不要将这些名称用于你的 argparse 参数。
 
 - `cmd2_statement` - 解析命令行时创建的 `cmd2.Statement` 对象
-- `cmd2_subcmd_handler` - 子命令处理函数，如果未设置则为 `None`
+- `cmd2_subcommand_func` - 子命令处理函数，如果未设置则为 `None`

@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：命令历史功能详解
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 详细介绍 cmd2 的命令历史功能，包括开发者接口和用户操作方式，涵盖历史记录的保存、搜索、编辑和脚本导出等。
 tags: [Python, CLI, cmd2]

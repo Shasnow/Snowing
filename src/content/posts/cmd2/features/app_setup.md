@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：应用初始化、多行命令与启动命令
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 介绍 cmd2 应用的初始化配置、类变量与实例属性、多行命令的使用，以及启动时执行命令的多种方式。
 tags: [Python, CLI, cmd2]
@@ -12,6 +13,8 @@ draft: false
 # 应用初始化
 
 以下是一个基本的 `cmd2` 应用示例，演示了你在初始化应用时可能希望利用的许多功能：
+
+<!-- fmt:off -->
 ```py
 #!/usr/bin/env python3
 """A simple example cmd2 application demonstrating many common features.
@@ -152,6 +155,7 @@ if __name__ == "__main__":
     app = BasicApp()
     sys.exit(app.cmdloop())
 ```
+<!-- fmt:on -->
 
 ## Cmd 类初始化器
 
@@ -176,7 +180,6 @@ if __name__ == "__main__":
 
 以下是开发者可能希望重写的 `cmd2.Cmd` 实例属性：
 
-- **bottom_toolbar**：如果为 `True`，将显示底部工具栏（默认：`False`）
 - **broken_pipe_warning**：如果非空，当发生管道断裂错误时将显示此字符串
 - **continuation_prompt**：多行命令在第 2 行及后续行输入时使用的提示符
 - **debug**：如果为 `True`，在错误时显示完整堆栈跟踪（默认：`False`）
@@ -231,9 +234,9 @@ if __name__ == "__main__":
 
 ## 调用时传入命令
 
-你可以在调用应用时通过将命令作为额外参数传递给程序来发送命令。`cmd2` 将每个参数解释为一个单独的命令，因此如果命令超过一个单词，你应该将每个命令用引号括起来。你可以使用单引号或双引号。
+默认情况下，你可以在调用应用时通过将命令作为额外参数传递给程序来向应用发送命令。`cmd2` 将每个参数解释为一个单独的命令，因此如果命令超过一个单词，你应该将每个命令用引号括起来。你可以使用单引号或双引号。
 
-    $ python examples/cmd_as_argument.py "say hello" "say Gracie" quit
+    $ uv run examples/cmd_as_argument.py "say hello" "say Gracie" quit
     hello
     Gracie
 
@@ -244,9 +247,20 @@ if __name__ == "__main__":
 
 ```py
 from cmd2 import Cmd
+
+
 class App(Cmd):
     def __init__(self):
         super().__init__(allow_cli_args=False)
+```
+:::
+
+:::tip
+如果你希望使用类似 [argparse](https://docs.python.org/3/library/argparse.html) 的工具来解析应用的整体命令行参数，但仍希望能将任何额外参数作为命令传递给你的应用，请参阅 [argparse_example.py](https://github.com/python-cmd2/cmd2/blob/main/examples/argparse_example.py) 示例末尾的 `if __name__ == "__main__":` 代码块。
+
+可以这样运行：
+```sh
+uv run examples/argparse_example.py -c blue help quit
 ```
 :::
 
@@ -257,7 +271,7 @@ class App(Cmd):
 ```py
 class StartupApp(cmd2.Cmd):
     def __init__(self):
-        cmd2.Cmd.__init__(self, startup_script='.cmd2rc')
+        cmd2.Cmd.__init__(self, startup_script=".cmd2rc")
 ```
 
 此文本文件应包含一个[命令脚本](../scripting/#命令脚本)。参阅 [getting_started.py](https://github.com/python-cmd2/cmd2/blob/main/examples/getting_started.py) 示例了解演示。
@@ -265,7 +279,7 @@ class StartupApp(cmd2.Cmd):
 你可以通过将 `silence_startup_script` 设为 True 来静音启动脚本的输出：
 
 ```py
-cmd2.Cmd.__init__(self, startup_script='.cmd2rc', silence_startup_script=True)
+cmd2.Cmd.__init__(self, startup_script=".cmd2rc", silence_startup_script=True)
 ```
 
 :::warning

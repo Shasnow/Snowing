@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：脚本功能详解
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 详细介绍 cmd2 的脚本功能，包括命令脚本和 Python 脚本的创建、运行，以及 cmd2 API 的开发原则和高级用法。
 tags: [Python, CLI, cmd2]
@@ -115,7 +116,7 @@ app(f'command {first} -t {second}')
 即使这是一个完全合格的 `cmd2` 错误，pyscript 也必须检查此错误并执行错误检查：
 
 ```py
-result = app('speak')
+result = app("speak")
 
 if not result:
     print(result.stderr)
@@ -126,7 +127,7 @@ if not result:
 ```py
 import sys
 
-result = app('speak TRUTH!!')
+result = app("speak TRUTH!!")
 
 if not result:
     print("Something went wrong")
@@ -164,6 +165,7 @@ app.py:
 ```py
 #!/usr/bin/env python
 """A simple cmd2 application."""
+
 import sys
 from dataclasses import dataclass
 from random import choice, randint
@@ -207,6 +209,7 @@ class FirstApp(cmd2.Cmd):
         """Executes a long running process at an API endpoint"""
         status = self._start_build(args.name)
         self._status_cache[args.name] = status
+
         self.poutput(f"Build {args.name.upper()} successfully started with id : {status.id}")
         self.last_result = status
 
@@ -234,11 +237,11 @@ import sys
 import time
 
 # start build
-result = app('build tower')
+result = app("build tower")
 
 # If there was an error then exit
 if not result:
-    print('Build failed')
+    print("Build failed")
     sys.exit()
 
 # This is a BuildStatus dataclass object
@@ -249,7 +252,7 @@ print(f"Build {build.name} : {build.status}")
 # Poll status
 while True:
     # Perform status check
-    result = app('status tower')
+    result = app("status tower")
 
     # error checking
     if not result:
@@ -259,7 +262,7 @@ while True:
     build_status = result.data
 
     # If the status shows complete then the script is done
-    if build_status.status in ['finished', 'canceled']:
+    if build_status.status in ["finished", "canceled"]:
         print(f"Build {build.name} has completed")
         break
 

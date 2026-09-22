@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：设置系统与插件系统详解
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 详细介绍 cmd2 的设置系统，包括内置设置（allow_style、debug、echo 等）、创建新设置和隐藏内置设置。同时，介绍插件系统，包括创建插件、加载插件和使用插件的功能。
 tags: [Python, CLI, cmd2]
@@ -179,8 +180,10 @@ class MyPlugin:
 import cmd2
 import cmd2_myplugin
 
+
 class Example(cmd2_myplugin.MyPlugin, cmd2.Cmd):
     """An class to show how to use a plugin"""
+
     def __init__(self, *args, **kwargs):
         # code placed here runs before cmd2.Cmd or
         # any plugins initialize
@@ -219,8 +222,8 @@ class MyPlugin:
         # code placed here runs before cmd2.Cmd initializes
         super().__init__(*args, **kwargs)
         # code placed here runs after cmd2.Cmd initializes
-        self.mysetting = 'somevalue'
-        self.add_settable(cmd2.Settable('mysetting', str, 'short help message for mysetting', self))
+        self.mysetting = "somevalue"
+        self.add_settable(cmd2.Settable("mysetting", str, "short help message for mysetting", self))
 ```
 
 你可以通过调用 `cmd2.Cmd.remove_settable` 来对用户隐藏设置。详见[设置](../settings_plugins/#设置)。
@@ -254,7 +257,7 @@ class MyPlugin:
 
     def cmd2_myplugin_postparsing_hook(self, data: cmd2.plugin.PostparsingData) -> cmd2.plugin.PostparsingData:
         """Method to be called after parsing user input, but before running the command"""
-        self.poutput('in postparsing_hook')
+        self.poutput("in postparsing_hook")
         return data
 ```
 

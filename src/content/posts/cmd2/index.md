@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：构建强大的命令行解释器
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 介绍 Python cmd2 包的使用方法，用于构建强大的命令行解释器（CLI）程序，扩展 Python 标准库的 cmd 模块。
 tags: [Python, CLI, cmd2]
@@ -114,7 +115,7 @@ $ pip install cmd2
 最新版本的 `cmd2` 可以直接从 GitHub 的 main 分支使用 [pip](https://pypi.org/project/pip) 安装：
 
 ```shell
-$ pip install -U git+git://github.com/python-cmd2/cmd2.git
+$ pip install -U git+https://github.com/python-cmd2/cmd2.git
 ```
 
 ### 从 Debian 或 Ubuntu 仓库安装
@@ -214,9 +215,9 @@ if __name__ == '__main__':
 1. 按照上述安装说明安装 `cmd2`
 2. 查看[入门示例应用](#入门示例)了解更完整的示例
 
-# 从 cmd 迁移到 cmd2
+# 从 cmd 升级到 cmd2
 
-如果你正在考虑将你的 [cmd](https://docs.python.org/3/library/cmd.html) 应用程序迁移到 `cmd2`，本节将帮助你决定是否适合你的应用程序，并展示如何进行迁移。
+如果你正在考虑将你的 [cmd](https://docs.python.org/3/library/cmd.html) 应用程序升级为基于 `cmd2`，本节将帮助你决定它是否适合你的应用程序，并展示如何进行。
 
 ## 为什么选择 cmd2
 
@@ -351,9 +352,12 @@ class CmdLineApp(cmd2.Cmd):
 - [生成输出](features/embedded_output_help/#生成输出)
 - [帮助](features/embedded_output_help/#帮助)
 - [快捷方式](features/shortcuts_aliases_macros/#快捷方式)
-- [多行命令](features/app_setup/#多行命令)
 - [历史记录](features/history/)
 - [底部工具栏](features/prompt_redirection/#底部工具栏)
+
+下面的动画演示了 `cat`、`echo` 和 `intro` 命令的实际运行效果：
+
+![getting_started 应用程序的动画演示](https://raw.githubusercontent.com/python-cmd2/cmd2/main/docs/assets/getting-started-demo.gif)
 
 如果你不想边看边输入，这里是完整的源代码（你可以点击展开，然后点击右上角的 **Copy** 按钮）：
 ```py
@@ -499,112 +503,168 @@ if __name__ == "__main__":
 
 ## 基本应用程序
 
-首先，我们需要创建一个新的 `cmd2` 应用程序。创建一个新文件 `getting_started.py`，内容如下：
+该示例将 `BasicApp` 定义为 `cmd2.Cmd` 的子类：
 
 ```py
-#!/usr/bin/env python
-"""一个基本的 cmd2 应用程序。"""
-import cmd2
-
-
 class BasicApp(cmd2.Cmd):
     """展示许多常见功能的 Cmd2 应用程序。"""
+```
 
+在文件末尾，应用程序创建该类的一个实例，并将控制权交给 `cmd2.Cmd.cmdloop` 方法：
 
-if __name__ == '__main__':
-    import sys
+```py
+if __name__ == "__main__":
     app = BasicApp()
     sys.exit(app.cmdloop())
 ```
 
-我们有一个新类 `BasicApp`，它是 `cmd2.Cmd` 的子类。当我们告诉 Python 运行我们的文件时：
+在仓库根目录运行示例：
 
 ```shell
-$ python getting_started.py
+$ uv run python examples/getting_started.py
 ```
 
-应用程序会创建我们类的一个实例，并调用 `cmd2.Cmd.cmdloop` 方法。此方法接受用户输入并根据该输入运行命令。由于我们继承了 `cmd2.Cmd`，我们的新应用程序已经具有许多内置功能。
+应用程序会显示其 intro 横幅和自定义的 `myapp>` 提示符。由于 `BasicApp` 继承了 `cmd2.Cmd`，它也包含了 `cmd2` 的内置命令和功能。输入 `quit` 退出。
 
-恭喜，你有了一个可以工作的 `cmd2` 应用程序。你可以运行它，然后输入 `quit` 退出。
+## 创建设置
 
-## 创建新设置
-
-在创建第一个命令之前，我们将向此应用程序添加一个新设置。`cmd2` 对[设置](features/settings_plugins/#设置)有强大的支持。你在对象初始化期间配置设置，因此我们需要为类添加一个初始化器：
+`cmd2` 对[设置](features/settings_plugins/#设置)有强大的支持。该示例将 `echo` 命令使用的颜色保存在 `foreground_color` 属性中，然后将该属性公开为运行时设置。可选值是 `cmd2.Color` 支持的颜色值：
 
 ```py
-def __init__(self):
-    super().__init__()
+# echo 命令输出文本所用的颜色
+self.foreground_color = Color.CYAN.value
 
-    # 使 maxrepeats 可在运行时设置
-    self.maxrepeats = 3
-    self.add_settable(cmd2.Settable('maxrepeats', int, 'speak 命令的最大重复次数', self))
+# 使 foreground_color 可在运行时设置
+fg_colors = [c.value for c in Color]
+self.add_settable(
+    cmd2.Settable(
+        "foreground_color",
+        str,
+        Text.assemble(
+            "echo 命令使用的前景色 ",
+            "（选项： ",
+            Text("Green", Style(color=Color.GREEN)),
+            ", ",
+            Text("Red", Style(color=Color.RED)),
+            ", ",
+            Text("Blue", Style(color=Color.BLUE)),
+            ", ...）",
+        ),
+        self,
+        choices=fg_colors,
+    )
+)
 ```
 
-在初始化器中，首先要确保我们初始化了 `cmd2`。这就是 `super().__init__()` 这行代码的作用。接下来创建一个属性来保存设置。最后，使用 `cmd2.utils.Settable` 类的新实例调用 `cmd2.Cmd.add_settable` 方法。现在如果你运行脚本，并输入 `set` 命令查看设置：
+`cmd2.Cmd.add_settable` 方法注册了一个 `cmd2.utils.Settable`，它会根据 `fg_colors` 验证新值。使用内置的 `set` 命令查看或更改它：
 
 ```shell
-$ python getting_started.py
-(Cmd) set
+myapp> set foreground_color
+myapp> set foreground_color red
 ```
 
-你会看到我们的 `maxrepeats` 设置显示出来，默认值为 `3`。
+第一条命令显示当前值。第二条更改后续 `echo` 输出所使用的颜色。
 
-## 创建命令
+## 命令
 
-现在我们将创建第一个命令，称为 `speak`，它将回显我们告诉它说的内容。我们将使用[参数处理器](features/argument_processing/)，以便 `speak` 命令可以大喊和说 Pig Latin。我们还将使用一些内置方法来[生成输出](features/embedded_output_help/#生成输出)。将此代码添加到 `getting_started.py`，使 `speak_parser` 属性和 `do_speak()` 方法成为 `BasicApp()` 类的一部分：
+以 `do_` 开头的方法会成为命令。`BasicApp` 定义了三个命令：`cat`、`echo` 和 `intro`。每个命令演示了一种不同的参数处理方式。
+
+### cat
+
+`cat` 命令使用 `cmd2.with_annotated` 根据类型注解构建其参数解析器。`pathlib.Path` 注解启用了路径补全，`cmd2.annotated.Option` 定义了可选的 `-n`/`--number` 标志：
 
 ```py
-speak_parser = cmd2.Cmd2ArgumentParser()
-speak_parser.add_argument('-p', '--piglatin', action='store_true', help='atinLay')
-speak_parser.add_argument('-s', '--shout', action='store_true', help='N00B EMULATION MODE')
-speak_parser.add_argument('-r', '--repeat', type=int, help='输出 [n] 次')
-speak_parser.add_argument('words', nargs='+', help='要说的话')
+@cmd2.with_annotated
+def do_cat(
+    self,
+    path: pathlib.Path,  # 必需的位置参数，带类型注解，按 Tab 自动补全文件系统路径
+    numbered: Annotated[  # 可选的标志参数，带类型注解、默认值和帮助文本
+        bool, Option("-n", "--number", help_text="在每行前加上其编号")
+    ] = False,
+) -> None:
+    """打印文件内容。`path` 会自动以 Tab 补全文件系统路径。
 
-@cmd2.with_argparser(speak_parser)
-def do_speak(self, args):
-    """重复你告诉我的内容。"""
-    words = []
-    for word in args.words:
-        if args.piglatin:
-            word = '%s%say' % (word[1:], word[0])
-        if args.shout:
-            word = word.upper()
-        words.append(word)
-    repetitions = args.repeat or 1
-    for _ in range(min(repetitions, self.maxrepeats)):
-        # .poutput 处理换行符，并适应输出重定向
-        self.poutput(' '.join(words))
+    试试：
+        cat <TAB>              # 路径会补全文件/目录 -- 无需额外连接补全器
+        cat notes.txt
+        cat notes.txt -n       # -n / --number，通过 Option 元数据声明
+        cat notes.txt --no-number
+    """
+    text = path.read_text()
+    lines = text.splitlines()
+    if numbered:
+        numbered_lines = []
+        for index, line in enumerate(lines, start=1):
+            numbered_lines.append(f"{index}: {line}")
+        self.ppaged("\n".join(numbered_lines))
+    else:
+        # 使用分页器打印内容
+        self.ppaged(path.read_text())
 ```
 
-在脚本顶部，你还需要添加：
+该命令使用 `cmd2.Cmd.ppaged`，这样较长的文件可以在分页器中查看。在示例自带的启动脚本上试试：
+
+```shell
+myapp> cat examples/.cmd2rc --number
+```
+
+### echo
+
+`echo` 命令演示了 `cmd2.with_argparser`。它的解析器工厂方法定义了用于转为大写和重复输出的选项，以及一个或多个要打印的单词：
 
 ```py
-import argparse
+@staticmethod
+def _build_echo_parser() -> cmd2.Cmd2ArgumentParser:
+    """供 echo 命令使用的解析器工厂方法。"""
+    echo_parser = cmd2.Cmd2ArgumentParser(description="回显输入的命令。")
+    echo_parser.add_argument("-u", "--upper", action="store_true", help="将输出转为大写")
+    echo_parser.add_argument("-r", "--repeat", type=int, default=1, help="输出 [n] 次")
+    echo_parser.add_argument("words", nargs="+", help="要打印的单词")
+    return echo_parser
+
+
+@cmd2.with_argparser(_build_echo_parser)
+def do_echo(self, args: argparse.Namespace) -> None:
+    """使用 with_argparser 装饰器解析参数的命令。"""
+    output_str = " ".join(args.words)
+    if args.upper:
+        output_str = output_str.upper()
+
+    for _ in range(args.repeat):
+        self.poutput(
+            stylize(
+                output_str,
+                style=Style(color=self.foreground_color),
+            )
+        )
 ```
 
-这里有很多内容需要解释，让我们逐步分析。我们创建了 `speak_parser`，它使用 Python 标准库中的 [argparse](https://docs.python.org/3/library/argparse.html) 模块来解析用户的命令行输入。到目前为止，还没有任何特定于 `cmd2` 的内容。
+装饰器解析命令行，并将 `argparse.Namespace` 传递给 `do_echo()`。它还会根据解析器生成命令帮助。该方法使用配置的前景色为文本添加样式，并通过 `cmd2.Cmd.poutput` 写入输出，它支持 `cmd2` 的输出重定向：
 
-还有一个新方法叫做 `do_speak()`。在 [cmd](https://docs.python.org/3/library/cmd.html) 和 `cmd2` 中，以 `do_` 开头的方法会成为新命令，因此通过定义此方法，我们创建了一个名为 `speak` 的命令。
+```shell
+myapp> echo --upper --repeat 2 hello cmd2
+HELLO CMD2
+HELLO CMD2
+myapp> help echo
+```
 
-注意 `do_speak()` 方法上的 `cmd2.decorators.with_argparser` 装饰器。此装饰器为我们做了 3 件有用的事情：
+### intro
 
-1. 它告诉 `cmd2` 使用我们定义的 argparser 处理 `speak` 命令的所有输入。如果用户输入不符合 argparser 定义的要求，将向用户显示错误。
-2. 它修改了我们的 `do_speak` 方法，使我们接收来自参数解析器的命名空间，而不是接收原始用户输入作为参数。
-3. 它基于 argparser 为我们创建帮助消息。
+`intro` 命令不接受任何参数，因此它演示了原始的 `cmd2.Statement` 接口：
 
-你可以在方法体中看到我们如何使用来自 argparser 的命名空间（作为变量 `args` 传入）。我们构建了一个要输出的单词列表，同时支持 `--piglatin` 和 `--shout` 选项。
+```py
+def do_intro(self, _: cmd2.Statement) -> None:
+    """显示 intro 横幅。
 
-在方法末尾，我们使用 `maxrepeats` 设置作为打印输出次数的上限。
+    此命令使用原始语句解析。总体而言，我们强烈不建议使用这种方式。但由于该命令实际上不接受任何参数，
+    在这里使用原始语句解析是安全的。
 
-你会注意到的最后一件事是我们使用 `self.poutput()` 方法来显示输出。`poutput()` 是 `cmd2` 提供的方法，我强烈建议你在想要[生成输出](features/embedded_output_help/#生成输出)时随时使用它。它提供以下好处：
+    & 键也用作此命令的快捷方式，因此你也可以输入 & 来显示 intro 横幅。
+    """
+    self.poutput(self.intro)
+```
 
-1. 允许用户将输出重定向到文本文件或通过管道传递给 shell 进程
-2. 为重定向的输出优雅地处理 `BrokenPipeError` 异常
-3. 根据设置[剥离嵌入的 ANSI 序列](features/settings_plugins/#allow_style)（通常用于背景和前景颜色）
-
-再次运行脚本，尝试 `speak` 命令。尝试输入 `help speak`，你会看到一个漂亮的消息，描述了该命令的各种选项。
-
-通过这几行代码，我们创建了一个[命令](features/command_completion_disable/#命令)，使用了[参数处理器](features/argument_processing/)，为用户添加了漂亮的[帮助消息](features/embedded_output_help/#帮助)，并[生成了一些输出](features/embedded_output_help/#生成输出)。
+输入 `intro` 会显示应用程序启动时显示的相同横幅。
 
 ## 快捷方式
 
@@ -620,69 +680,21 @@ import argparse
 (Cmd) !ls -al
 ```
 
-让我们为 `speak` 命令添加一个快捷方式。修改 `__init__()` 方法，使其如下所示：
+该示例为 `intro` 命令添加了 `&` 快捷方式：
 
 ```py
-def __init__(self):
-    shortcuts = cmd2.DEFAULT_SHORTCUTS
-    shortcuts.update({'&': 'speak'})
-    super().__init__(shortcuts=shortcuts)
-
-    # 使 maxrepeats 可在运行时设置
-    self.maxrepeats = 3
-    self.add_settable(cmd2.Settable('maxrepeats', int, 'speak 命令的最大重复次数', self))
+shortcuts = cmd2.DEFAULT_SHORTCUTS
+shortcuts.update({"&": "intro"})
 ```
 
-快捷方式传递给 `cmd2` 初始化器，如果你想要 `cmd2` 的内置快捷方式，你必须传递它们。这些快捷方式定义为字典，键是快捷方式，值包含命令。使用默认快捷方式并添加自己的快捷方式时，最好使用 `.update()` 方法修改字典。这样，如果你添加的快捷方式恰好已经在默认集中，你的将覆盖默认的，并且在运行时不会出现任何错误。
+随后，`shortcuts` 字典会与其他应用程序配置一起传递给 `cmd2.Cmd` 初始化器。以 `cmd2.DEFAULT_SHORTCUTS` 为起点可以保留内置快捷方式；调用 `.update()` 会添加新快捷方式，或覆盖具有相同键的现有快捷方式。
 
-再次运行你的应用程序，输入：
+使用内置的 `shortcuts` 命令列出所有快捷方式，或输入 `&` 来调用 `intro`：
 
 ```shell
-(Cmd) shortcuts
+myapp> shortcuts
+myapp> &
 ```
-
-查看所有快捷方式的列表，包括我们刚刚创建的 speak 的快捷方式。
-
-## 多行命令
-
-一些用例受益于跨越多行的命令。例如，你可能希望用户能够输入 SQL 命令，这些命令通常跨越多行并以分号结尾。让我们为应用程序添加一个多行命令。首先我们将创建一个名为 `orate` 的新命令。此代码同时显示了 `speak` 命令和 `orate` 命令的定义：
-
-```py
-@cmd2.with_argparser(speak_parser)
-def do_speak(self, args):
-    """重复你告诉我的内容。"""
-    words = []
-    for word in args.words:
-        if args.piglatin:
-            word = '%s%say' % (word[1:], word[0])
-        if args.shout:
-            word = word.upper()
-        words.append(word)
-    repetitions = args.repeat or 1
-    for _ in range(min(repetitions, self.maxrepeats)):
-        # .poutput 处理换行符，并适应输出重定向
-        self.poutput(' '.join(words))
-
-# orate 是 speak 的同义词，接受多行输入
-do_orate = do_speak
-```
-
-创建新命令后，我们需要告诉 `cmd2` 将该命令视为多行命令。修改 super 初始化行，使其如下所示：
-
-```py
-super().__init__(multiline_commands=['orate'], shortcuts=shortcuts)
-```
-
-现在当你运行示例时，你可以输入类似这样的内容：
-
-```text
-(Cmd) orate O for a Muse of fire, that would ascend
-> The brightest heaven of invention,
-> A kingdom for a stage, princes to act
-> And monarchs to behold the swelling scene! ;
-```
-
-注意提示符会更改以指示输入仍在进行中。`cmd2` 将继续提示输入，直到看到未加引号的分号（默认的多行命令终止字符）。
 
 ## 历史记录
 
@@ -743,13 +755,15 @@ app.cmdloop()
 ```py
 import cmd2
 
+
 class Cmd2EventBased(cmd2.Cmd):
     def __init__(self):
         cmd2.Cmd.__init__(self)
 
     # ... 你的类代码 ...
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app = Cmd2EventBased()
     app.preloop()
 

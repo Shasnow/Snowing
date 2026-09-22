@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：嵌入式 Python Shell、生成输出与帮助系统
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 详细介绍 cmd2 的嵌入式 Python/IPython Shell、输出生成方法（包括分页、着色、对齐）以及帮助系统和命令分类功能。
 tags: [Python, CLI, cmd2]
@@ -17,6 +18,8 @@ draft: false
 
 ```py
 from cmd2 import Cmd
+
+
 class App(Cmd):
     def __init__(self):
         Cmd.__init__(self, include_py=True)
@@ -53,6 +56,8 @@ arg 3: 'baz'
 
 ```py
 from cmd2 import Cmd
+
+
 class App(Cmd):
     def __init__(self):
         Cmd.__init__(self, include_ipy=True)
@@ -250,7 +255,7 @@ Optional Arguments:
 ```py
 class MyApp(cmd2.Cmd):
     # All commands defined in this class will be grouped here
-    DEFAULT_CATEGORY = 'Application Commands'
+    DEFAULT_CATEGORY = "Application Commands"
 
     def do_echo(self, arg):
         """Echo command"""
@@ -261,11 +266,11 @@ class MyApp(cmd2.Cmd):
 
 ```py
 class Plugin(cmd2.CommandSet):
-    DEFAULT_CATEGORY = 'Plugin Commands'
+    DEFAULT_CATEGORY = "Plugin Commands"
 
     def do_plugin_cmd(self, _):
         """Plugin command"""
-        self._cmd.poutput('Plugin')
+        self._cmd.poutput("Plugin")
 ```
 
 使用继承时，`cmd2` 使用命令实际定义所在类的 `DEFAULT_CATEGORY`。这意味着内置命令（如 `help`、`history` 和 `quit`）保留在 `"Cmd2 Commands"` 分类中，而你的命令移到你的自定义分类中。
@@ -275,10 +280,10 @@ class Plugin(cmd2.CommandSet):
 ```py
 class MyApp(cmd2.Cmd):
     # Rename the framework's built-in category
-    cmd2.Cmd.DEFAULT_CATEGORY = 'Shell Commands'
+    cmd2.Cmd.DEFAULT_CATEGORY = "Shell Commands"
 
     # Set the category for your own commands
-    DEFAULT_CATEGORY = 'Application Commands'
+    DEFAULT_CATEGORY = "Application Commands"
 ```
 
 有关此功能的完整演示，请参阅 [default_categories.py](https://github.com/python-cmd2/cmd2/blob/main/examples/default_categories.py) 示例。
@@ -290,10 +295,10 @@ class MyApp(cmd2.Cmd):
 使用 `@with_category` 装饰器：
 
 ```py
-@with_category('Connecting')
+@with_category("Connecting")
 def do_which(self, _):
     """Which command"""
-    self.poutput('Which')
+    self.poutput("Which")
 ```
 
 使用 `categorize()` 函数：
@@ -303,7 +308,8 @@ def do_which(self, _):
 ```py
 def do_connect(self, _):
     """Connect command"""
-    self.poutput('Connect')
+    self.poutput("Connect")
+
 
 # Tag the above command functions under the category Connecting
 categorize(do_connect, CMD_CAT_CONNECTING)
@@ -314,20 +320,21 @@ categorize(do_connect, CMD_CAT_CONNECTING)
 ```py
 def do_undeploy(self, _):
     """Undeploy command"""
-    self.poutput('Undeploy')
+    self.poutput("Undeploy")
+
 
 def do_stop(self, _):
     """Stop command"""
-    self.poutput('Stop')
+    self.poutput("Stop")
+
 
 def do_findleakers(self, _):
     """Find Leakers command"""
-    self.poutput('Find Leakers')
+    self.poutput("Find Leakers")
+
 
 # Tag the above command functions under the category Application Management
-categorize((do_undeploy,
-            do_stop,
-            do_findleakers), CMD_CAT_APP_MGMT)
+categorize((do_undeploy, do_stop, do_findleakers), CMD_CAT_APP_MGMT)
 ```
 
 `help` 命令还有一个详细选项（`help -v` 或 `help --verbose`），它将帮助分类与每个命令的帮助消息结合在一起：

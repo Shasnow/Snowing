@@ -1,13 +1,17 @@
 ---
 title: StarRailAssistant - 崩铁自动化助手
 published: 2026-02-22
-updated: 2026-09-01
-pinned: false
 description: StarRailAssistant（SRA）是一个基于图像识别的崩铁自动化程序，帮您完成从启动到退出的崩铁日常。支持多账号切换、自动剧情、差分宇宙刷等级、货币战争等功能。
+image: "https://starrailassistant.top/_astro/softwaremain2.C3xP9Cen_6MuUy.webp"
+status: "published"
 tags: [Python, C#]
-category: SRA
-licenseName: "Unlicensed"
-draft: false
+link:
+  - label: "GitHub"
+    icon: "fa7-brands:github"
+    value: "https://github.com/Shasnow/StarRailAssistant"
+  - label: "文档"
+    icon: "material-symbols:menu-book"
+    value: "https://starrailassistant.top"
 ---
 
 ::github{repo="Shasnow/StarRailAssistant"}
@@ -87,7 +91,6 @@ nothing to do with it.
 含有 StarRailAssistant_ServerDLC 的版本需要安装[ASP.NET Core 运行时 10.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/10.0)。
 
 * 在Release页面下载`StarRailAssistant_vX.X.X.zip`文件，*一切都为您准备妥当*，只需解压到您喜欢的位置，然后运行`SRA.exe`即可！
-* 如需使用 WebUI，请额外下载 `StarRailAssistant_WebUI_vX.X.X.zip` 并解压到同一个 SRA 根目录；同时需要安装 `ServerDLC` 或使用包含服务端的完整包。
 * 从源码运行SRA，请阅读 [贡献指南](CONTRIBUTING.md)。
 
 ------------------------------------------------------------------------------------------

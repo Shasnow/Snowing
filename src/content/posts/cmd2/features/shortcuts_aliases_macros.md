@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：快捷方式、别名与宏
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 介绍 cmd2 的快捷方式、别名和宏功能，帮助用户更高效地使用命令行。
 tags: [Python, CLI, cmd2]
@@ -26,7 +27,7 @@ draft: false
 class App(Cmd):
     def __init__(self):
         shortcuts = cmd2.DEFAULT_SHORTCUTS
-        shortcuts.update({'*': 'sneeze', '~': 'squirm'})
+        shortcuts.update({"*": "sneeze", "~": "squirm"})
         cmd2.Cmd.__init__(self, shortcuts=shortcuts)
 ```
 

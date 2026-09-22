@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：钩子机制详解
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 详细介绍 cmd2 的钩子机制，包括应用生命周期钩子、命令处理循环中的各类钩子（解析后、命令前、命令后、命令终结）及其使用方法。
 tags: [Python, CLI, cmd2]
@@ -146,8 +147,8 @@ class App(cmd2.Cmd):
 
 ```py
 def myhookmethod(self, params: cmd2.plugin.PostparsingData) -> cmd2.plugin.PostparsingData:
-    if not '|' in params.statement.raw:
-        newinput = params.statement.raw + ' | less'
+    if not "|" in params.statement.raw:
+        newinput = params.statement.raw + " | less"
         params.statement = self.statement_parser.parse(newinput)
     return params
 ```

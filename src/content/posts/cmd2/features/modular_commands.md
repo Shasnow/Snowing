@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：模块化命令详解
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 详细介绍 cmd2 的模块化命令系统，包括 CommandSet 的定义、自动加载、动态加载/卸载、事件处理器和子命令注入。
 tags: [Python, CLI, cmd2]
@@ -41,30 +42,33 @@ CommandSet 命令方法期望的参数与在 `cmd2.Cmd` 子类中定义时相同
 import cmd2
 from cmd2 import CommandSet
 
+
 class ExampleApp(cmd2.Cmd):
     """
     CommandSets are automatically loaded. Nothing needs to be done.
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, auto_load_commands=True, **kwargs)
 
     def do_something(self, arg):
         """Something Command."""
-        self.poutput('this is the something command')
+        self.poutput("this is the something command")
+
 
 class AutoLoadCommandSet(CommandSet[ExampleApp]):
-    DEFAULT_CATEGORY = 'My Category'
+    DEFAULT_CATEGORY = "My Category"
 
     def __init__(self):
         super().__init__()
 
     def do_hello(self, _: cmd2.Statement):
         """Hello Command."""
-        self._cmd.poutput('Hello')
+        self._cmd.poutput("Hello")
 
     def do_world(self, _: cmd2.Statement):
         """World Command."""
-        self._cmd.poutput('World')
+        self._cmd.poutput("World")
 ```
 
 ### 手动 CommandSet 构造
@@ -75,20 +79,23 @@ class AutoLoadCommandSet(CommandSet[ExampleApp]):
 import cmd2
 from cmd2 import CommandSet
 
+
 class ExampleApp(cmd2.Cmd):
     """
     CommandSets with initializer parameters are provided in the initializer
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, auto_load_commands=True, **kwargs)
 
     def do_something(self, arg):
         """Something Command."""
         self.last_result = 5
-        self.poutput('this is the something command')
+        self.poutput("this is the something command")
+
 
 class CustomInitCommandSet(CommandSet[ExampleApp]):
-    DEFAULT_CATEGORY = 'My Category'
+    DEFAULT_CATEGORY = "My Category"
 
     def __init__(self, arg1, arg2):
         super().__init__()
@@ -97,11 +104,11 @@ class CustomInitCommandSet(CommandSet[ExampleApp]):
 
     def do_show_arg1(self, _: cmd2.Statement):
         """Show Arg 1."""
-        self._cmd.poutput(f'Arg1: {self._arg1}')
+        self._cmd.poutput(f"Arg1: {self._arg1}")
 
     def do_show_arg2(self, _: cmd2.Statement):
         """Show Arg 2."""
-        self._cmd.poutput(f'Arg2: {self._arg2}')
+        self._cmd.poutput(f"Arg2: {self._arg2}")
 
 
 def main():
@@ -120,10 +127,12 @@ def main():
 import cmd2
 from cmd2 import CommandSet
 
+
 class MyApp(cmd2.Cmd):
     def __init__(self):
         super().__init__()
         self.custom_state = "Some important data"
+
 
 class MyCommands(CommandSet[MyApp]):
     def do_check_state(self, _: cmd2.Statement):
@@ -144,33 +153,33 @@ from cmd2 import CommandSet, with_argparser, with_category
 
 
 class LoadableFruits(CommandSet["ExampleApp"]):
-    DEFAULT_CATEGORY = 'Fruits'
+    DEFAULT_CATEGORY = "Fruits"
 
     def __init__(self):
         super().__init__()
 
     def do_apple(self, _: cmd2.Statement):
         """Apple Command."""
-        self._cmd.poutput('Apple')
+        self._cmd.poutput("Apple")
 
     def do_banana(self, _: cmd2.Statement):
         """Banana Command."""
-        self._cmd.poutput('Banana')
+        self._cmd.poutput("Banana")
 
 
 class LoadableVegetables(CommandSet["ExampleApp"]):
-    DEFAULT_CATEGORY = 'Vegetables'
+    DEFAULT_CATEGORY = "Vegetables"
 
     def __init__(self):
         super().__init__()
 
     def do_arugula(self, _: cmd2.Statement):
         """Arugula Command."""
-        self._cmd.poutput('Arugula')
+        self._cmd.poutput("Arugula")
 
     def do_bokchoy(self, _: cmd2.Statement):
         """Bok Choy Command."""
-        self._cmd.poutput('Bok Choy')
+        self._cmd.poutput("Bok Choy")
 
 
 class ExampleApp(cmd2.Cmd):
@@ -184,39 +193,39 @@ class ExampleApp(cmd2.Cmd):
         self._vegetables = LoadableVegetables()
 
     load_parser = cmd2.Cmd2ArgumentParser()
-    load_parser.add_argument('cmds', choices=['fruits', 'vegetables'])
+    load_parser.add_argument("cmds", choices=["fruits", "vegetables"])
 
     @with_argparser(load_parser)
-    @with_category('Command Loading')
+    @with_category("Command Loading")
     def do_load(self, ns: argparse.Namespace):
         """Load Command."""
-        if ns.cmds == 'fruits':
+        if ns.cmds == "fruits":
             try:
                 self.register_command_set(self._fruits)
-                self.poutput('Fruits loaded')
+                self.poutput("Fruits loaded")
             except ValueError:
-                self.poutput('Fruits already loaded')
+                self.poutput("Fruits already loaded")
 
-        if ns.cmds == 'vegetables':
+        if ns.cmds == "vegetables":
             try:
                 self.register_command_set(self._vegetables)
-                self.poutput('Vegetables loaded')
+                self.poutput("Vegetables loaded")
             except ValueError:
-                self.poutput('Vegetables already loaded')
+                self.poutput("Vegetables already loaded")
 
     @with_argparser(load_parser)
     def do_unload(self, ns: argparse.Namespace):
         """Unload Command."""
-        if ns.cmds == 'fruits':
+        if ns.cmds == "fruits":
             self.unregister_command_set(self._fruits)
-            self.poutput('Fruits unloaded')
+            self.poutput("Fruits unloaded")
 
-        if ns.cmds == 'vegetables':
+        if ns.cmds == "vegetables":
             self.unregister_command_set(self._vegetables)
-            self.poutput('Vegetables unloaded')
+            self.poutput("Vegetables unloaded")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = ExampleApp()
     app.cmdloop()
 ```
@@ -249,41 +258,41 @@ from cmd2 import CommandSet, with_argparser, with_category
 
 
 class LoadableFruits(CommandSet["ExampleApp"]):
-    DEFAULT_CATEGORY = 'Fruits'
+    DEFAULT_CATEGORY = "Fruits"
 
     def __init__(self):
         super().__init__()
 
     def do_apple(self, _: cmd2.Statement):
         """Apple Command."""
-        self._cmd.poutput('Apple')
+        self._cmd.poutput("Apple")
 
     banana_parser = cmd2.Cmd2ArgumentParser()
-    banana_parser.add_argument('direction', choices=['discs', 'lengthwise'])
+    banana_parser.add_argument("direction", choices=["discs", "lengthwise"])
 
-    @cmd2.as_subcommand_to('cut', 'banana', banana_parser)
+    @cmd2.as_subcommand_to("cut", "banana", banana_parser)
     def cut_banana(self, ns: argparse.Namespace):
         """Cut banana"""
-        self._cmd.poutput('cutting banana: ' + ns.direction)
+        self._cmd.poutput("cutting banana: " + ns.direction)
 
 
 class LoadableVegetables(CommandSet["ExampleApp"]):
-    DEFAULT_CATEGORY = 'Vegetables'
+    DEFAULT_CATEGORY = "Vegetables"
 
     def __init__(self):
         super().__init__()
 
     def do_arugula(self, _: cmd2.Statement):
         """Arugula Command."""
-        self._cmd.poutput('Arugula')
+        self._cmd.poutput("Arugula")
 
     bokchoy_parser = cmd2.Cmd2ArgumentParser()
-    bokchoy_parser.add_argument('style', choices=['quartered', 'diced'])
+    bokchoy_parser.add_argument("style", choices=["quartered", "diced"])
 
-    @cmd2.as_subcommand_to('cut', 'bokchoy', bokchoy_parser)
+    @cmd2.as_subcommand_to("cut", "bokchoy", bokchoy_parser)
     def cut_bokchoy(self, _: argparse.Namespace):
         """Cut bok choy."""
-        self._cmd.poutput('Bok Choy')
+        self._cmd.poutput("Bok Choy")
 
 
 class ExampleApp(cmd2.Cmd):
@@ -297,52 +306,48 @@ class ExampleApp(cmd2.Cmd):
         self._vegetables = LoadableVegetables()
 
     load_parser = cmd2.Cmd2ArgumentParser()
-    load_parser.add_argument('cmds', choices=['fruits', 'vegetables'])
+    load_parser.add_argument("cmds", choices=["fruits", "vegetables"])
 
     @with_argparser(load_parser)
-    @with_category('Command Loading')
+    @with_category("Command Loading")
     def do_load(self, ns: argparse.Namespace):
         """Load Command."""
-        if ns.cmds == 'fruits':
+        if ns.cmds == "fruits":
             try:
                 self.register_command_set(self._fruits)
-                self.poutput('Fruits loaded')
+                self.poutput("Fruits loaded")
             except ValueError:
-                self.poutput('Fruits already loaded')
+                self.poutput("Fruits already loaded")
 
-        if ns.cmds == 'vegetables':
+        if ns.cmds == "vegetables":
             try:
                 self.register_command_set(self._vegetables)
-                self.poutput('Vegetables loaded')
+                self.poutput("Vegetables loaded")
             except ValueError:
-                self.poutput('Vegetables already loaded')
+                self.poutput("Vegetables already loaded")
 
     @with_argparser(load_parser)
     def do_unload(self, ns: argparse.Namespace):
         """Unload Command."""
-        if ns.cmds == 'fruits':
+        if ns.cmds == "fruits":
             self.unregister_command_set(self._fruits)
-            self.poutput('Fruits unloaded')
+            self.poutput("Fruits unloaded")
 
-        if ns.cmds == 'vegetables':
+        if ns.cmds == "vegetables":
             self.unregister_command_set(self._vegetables)
-            self.poutput('Vegetables unloaded')
+            self.poutput("Vegetables unloaded")
 
     cut_parser = cmd2.Cmd2ArgumentParser()
-    cut_subparsers = cut_parser.add_subparsers(title='item', help='item to cut')
+    cut_parser.add_subparsers(title="item", help="item to cut", metavar="ITEM", required=True)
 
     @with_argparser(cut_parser)
     def do_cut(self, ns: argparse.Namespace):
         """Cut Command."""
-        handler = ns.cmd2_subcmd_handler
-        if handler is not None:
-            handler(ns)
-        else:
-            self.poutput('This command does nothing without sub-parsers registered')
-            self.do_help('cut')
+        # 调用所选择的子命令处理函数
+        ns.cmd2_subcommand_func(ns)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = ExampleApp()
     app.cmdloop()
 ```

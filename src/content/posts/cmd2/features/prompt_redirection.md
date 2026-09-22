@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：提示符定制、输出重定向与管道
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 介绍 cmd2 的提示符定制功能，包括自定义提示符、续行提示符、异步反馈和底部工具栏。介绍 cmd2 的输出重定向和管道功能，包括重定向到文件、剪贴板、管道传递给 shell 命令，以及禁用和限制。
 tags: [Python, CLI, cmd2]
@@ -56,30 +57,39 @@ draft: false
 
 ### 启用工具栏
 
-要启用工具栏，在 `cmd2.Cmd.__init__` 构造函数中设置 `bottom_toolbar=True`：
+要启用工具栏，在 `cmd2.Cmd.__init__` 构造函数中设置 `enable_bottom_toolbar=True`：
 
 ```py
 class App(cmd2.Cmd):
     def __init__(self):
-        super().__init__(bottom_toolbar=True)
+        super().__init__(enable_bottom_toolbar=True)
 ```
 
 ### 自定义工具栏内容
 
-你可以通过重写 `cmd2.Cmd.get_bottom_toolbar` 方法来自定义工具栏的内容。此方法应返回一个字符串或 `(style, text)` 元组列表用于格式化文本。
+你可以通过重写 `cmd2.Cmd.get_bottom_toolbar` 方法来自定义工具栏的内容。
 
 ```py
-    def get_bottom_toolbar(self) -> list[str | tuple[str, str]] | None:
-        return [
-            ('ansigreen', 'My Application Name'),
-            ('', ' - '),
-            ('ansiyellow', 'Current Status: Idle'),
-        ]
+from prompt_toolkit.formatted_text import AnyFormattedText
+
+
+def get_bottom_toolbar(self) -> AnyFormattedText:
+    return [
+        ("ansigreen", "My Application Name"),
+        ("", " - "),
+        ("ansiyellow", "Current Status: Idle"),
+    ]
 ```
 
 ### 刷新工具栏
 
-由于工具栏由 `prompt-toolkit` 作为提示符的一部分渲染，它会在提示符刷新时自然重绘。如果你希望工具栏自动更新（例如显示时钟），可以使用后台线程定期调用 `app.invalidate()`。
+由于工具栏由 `prompt-toolkit` 作为提示符的一部分渲染，它会在提示符刷新时自然重绘。如果你希望工具栏自动更新（例如显示时钟），可以在 `cmd2.Cmd.__init__` 构造函数中将 `refresh_interval` 设置为大于 0.0 的值：
+
+```py
+class App(cmd2.Cmd):
+    def __init__(self):
+        super().__init__(refresh_interval=0.5)
+```
 
 参阅 [getting_started.py](https://github.com/python-cmd2/cmd2/blob/main/examples/getting_started.py) 示例了解此技术的演示。
 
@@ -126,6 +136,8 @@ class App(cmd2.Cmd):
 
 ```py
 from cmd2 import Cmd
+
+
 class App(Cmd):
     def __init__(self):
         super().__init__(allow_redirection=False)

@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：操作系统集成
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 介绍 cmd2 与操作系统的集成，包括输出重定向、执行 OS 命令、编辑器、终端分页器、退出码和命令行参数传递。
 tags: [Python, CLI, cmd2]
@@ -71,30 +72,31 @@ draft: false
 
 这两种方法都会启动你的程序并进入 `cmd2` 命令循环，允许用户输入命令，然后由你的程序执行。
 
-你可能希望在不提示用户输入任何内容的情况下在程序中执行命令。有几种方法可以完成此任务。最简单的一种是通过标准输入将命令及其参数管道传递给你的程序。你不需要对程序做任何事情就可以使用此技术。
+你可能希望在不提示用户输入任何内容的情况下在程序中执行命令。有几种方法可以完成此任务。其中一种方法是通过标准输入将命令及其参数管道传递给你的程序。你不需要对程序做任何事情就可以使用此技术。
 
-    $ echo "speak -p some words" | python examples/cmd_as_argument.py
+    $ echo "speak -p some words" | uv run examples/cmd_as_argument.py
     omesay ordsway
 
 使用相同的方法，你可以创建一个包含要运行的命令的文本文件，文件中每行一个命令。假设你的文件名为 `somecmds.txt`：
 
-    c:\cmd2> type somecmds.txt | python.exe examples/cmd_as_argument.py
+    c:\cmd2> type somecmds.txt | uv run examples/cmd_as_argument.py
     omesay ordsway
 
 默认情况下，`cmd2` 程序还会查找从操作系统 shell 传递的参数作为命令，并在进入命令循环之前执行这些命令：
 
-    $ python examples/cmd_as_argument.py help
+    $ uv run examples/cmd_as_argument.py help
 
-你可能需要对从操作系统 shell 传递的命令行参数有更多控制。例如，你可能有一个命令本身接受参数，甚至选项字符串。设置 `allow_cli_args=False` 你可以自行解析命令行：
+你可能需要对从操作系统 shell 传递的命令行参数有更多控制。例如，你可能有一个命令本身接受参数，甚至选项字符串。假设你想从操作系统 shell 运行 `speak` 命令，但让它用 pig latin（儿童黑话）说出来——只需将命令及其参数用双引号或单引号括起来即可：
 
-    $ python examples/cmd_as_argument.py speak -p hello there
-    ellohay heretay
-
-或者，你可以简单地将命令加参数用引号括起来：
-
-    $ python examples/cmd_as_argument.py "speak -p hello there"
+    $ uv run examples/cmd_as_argument.py "speak -p hello there"
     ellohay heretay
     (Cmd)
+
+如果你想使用自定义 `argparse` 解析器来收集高层应用参数，同时仍希望在调用时将额外的未知参数作为命令传递，请参阅 [argparse_example.py](https://github.com/python-cmd2/cmd2/blob/main/examples/argparse_example.py) 示例。使用这种方法，你可以这样调用它：
+
+    $ uv run examples/argparse_example.py -c blue help
+
+查看该示例的源代码，特别是 `if __name__ == "__main__":` 代码块，了解实现技巧。
 
 ### 从其他 CLI/CLU 工具自动化 cmd2 应用
 
@@ -106,7 +108,7 @@ draft: false
 2. 离开 `cmd2` 应用时设置退出码的能力
 3. 使用 `quit` 命令退出 `cmd2` 应用的能力
 ```
-$ python examples/cmd_as_argument.py "speak -p hello there" quit
+$ uv run examples/cmd_as_argument.py "speak -p hello there" quit
 ellohay heretay
 $
 ```

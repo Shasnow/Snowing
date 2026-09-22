@@ -1,6 +1,7 @@
 ---
 title: Python cmd2：命令、补全与禁用命令
 published: 2026-05-28
+updated: 2026-09-22
 pinned: false
 description: 详细介绍 cmd2 的命令创建、Tab 补全机制以及命令的禁用、隐藏和移除功能。
 tags: [Python, CLI, cmd2]
@@ -20,6 +21,7 @@ draft: false
 ```py
 #!/usr/bin/env python
 """A simple cmd2 application."""
+
 import cmd2
 
 
@@ -27,8 +29,9 @@ class App(cmd2.Cmd):
     """A simple cmd2 application."""
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     c = App()
     sys.exit(c.cmdloop())
 ```
@@ -112,11 +115,13 @@ def do_finish(self, line):
 ```py
 #!/usr/bin/env python
 """A simple cmd2 application."""
+
 import cmd2
 
 
 class App(cmd2.Cmd):
     """A simple cmd2 application."""
+
 
 def do_bail(self, line):
     """Exit the application"""
@@ -124,8 +129,10 @@ def do_bail(self, line):
     self.exit_code = 2
     return True
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     import sys
+
     c = App()
     sys.exit(c.cmdloop())
 ```
@@ -286,21 +293,22 @@ complete_bar = functools.partialmethod(cmd2.Cmd.path_complete, path_filter=os.pa
 ```py
 class HiddenCommands(cmd2.Cmd):
     """An app which demonstrates how to hide a command"""
+
     def __init__(self):
         super().__init__()
-        self.hidden_commands.append('py')
+        self.hidden_commands.append("py")
 ```
 
 如上所示，你通常会在初始化应用时执行此操作。如果你稍后决定取消隐藏某个命令，可以这样做：
 
 ```py
-self.hidden_commands = [cmd for cmd in self.hidden_commands if cmd != 'py']
+self.hidden_commands = [cmd for cmd in self.hidden_commands if cmd != "py"]
 ```
 
 你可能觉得列表推导式有些多余，更愿意这样做：
 
 ```py
-self.hidden_commands.remove('py')
+self.hidden_commands.remove("py")
 ```
 
 你也许是对的，但如果 `py` 不在列表中，`remove()` 会引发 `ValueError`，而且如果列表中有多个相同的项，它只会移除第一个。
@@ -316,16 +324,16 @@ class DisabledCommands(cmd2.Cmd):
     """An application which disables and enables commands"""
 
     def do_lock(self, line):
-        self.disable_command('open', "you can't open the door because it is locked")
-        self.poutput('the door is locked')
+        self.disable_command("open", "you can't open the door because it is locked")
+        self.poutput("the door is locked")
 
     def do_unlock(self, line):
-        self.enable_command('open')
-        self.poutput('the door is unlocked')
+        self.enable_command("open")
+        self.poutput("the door is unlocked")
 
     def do_open(self, line):
         """open the door"""
-        self.poutput('opening the door')
+        self.poutput("opening the door")
 ```
 
 这种方法还有一个额外的好处，就是将禁用的命令从帮助菜单中移除。但这种方法只适用于你提前知道命令应被禁用，且重新启用的条件也是提前已知的情况。
@@ -335,14 +343,14 @@ class DisabledCommands(cmd2.Cmd):
 你可以按[命令分类](../embedded_output_help/#命令分类)中所述对命令进行分组或分类。如果这样做，你可以通过一次方法调用来禁用和启用某个分类中的所有命令。假设你创建了一个名为"服务器信息"的命令分类，你可以禁用该分类中的所有命令：
 
 ```py
-not_connected_msg = 'You must be connected to use this command'
-self.disable_category('Server Information', not_connected_msg)
+not_connected_msg = "You must be connected to use this command"
+self.disable_category("Server Information", not_connected_msg)
 ```
 
 类似地，你可以重新启用某个分类中的所有命令：
 
 ```py
-self.enable_category('Server Information')
+self.enable_category("Server Information")
 ```
 
 参阅 [help_categories.py](https://github.com/python-cmd2/cmd2/blob/main/examples/help_categories.py) 了解在运行时动态启用和禁用整个命令分类的示例。

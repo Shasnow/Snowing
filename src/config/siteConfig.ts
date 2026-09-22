@@ -42,13 +42,13 @@ const pages = resolvePageToggles({
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "Firefly",
+	title: "雪落无影",
 
 	// 站点副标题
-	subtitle: "Demo site",
+	subtitle: "分享",
 
 	// 站点 URL
-	site_url: "https://firefly.cuteleaf.cn",
+	site_url: "https://shasnow.top",
 
 	// 站点描述
 	description:
@@ -56,6 +56,7 @@ export const siteConfig: SiteConfig = {
 
 	// 站点关键词
 	keywords: [
+        "Shasnow",
 		"Firefly",
 		"Fuwari",
 		"Astro",
@@ -117,8 +118,8 @@ export const siteConfig: SiteConfig = {
 			alt: "🍀",
 		},
 		// 导航栏标题
-		title: "Firefly Blog",
-		// 全宽导航栏，导航栏是否占满屏幕宽度
+		title: "Snowing",
+		// 全宽导航栏，导航栏是否占满屏幕宽度，true：占满，false：不占满
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中
 		menuAlign: "center",
@@ -131,8 +132,8 @@ export const siteConfig: SiteConfig = {
 		navbarMode: "dynamic",
 	},
 
-	// 站点开始日期，用于统计运行天数
-	siteStartDate: "2025-01-01",
+    // 站点开始日期，用于统计运行天数
+    siteStartDate: "2025-11-27", // 请修改为你的站点实际开始日期，格式：YYYY-MM-DD
 
 	// 站点时区（IANA 时区字符串），用于格式化bangumi、rss里的构建日期时间等等..
 	// 示例："Asia/Shanghai", "UTC", 如果为空，则按照构建服务器的时区进行时区转换
@@ -140,8 +141,8 @@ export const siteConfig: SiteConfig = {
 
 	// 页面开关配置 - 控制特定页面的访问权限，设为false会返回404并自动隐藏对应的导航栏菜单项
 
-	// 分类导航栏开关，在首页和归档页顶部显示分类快捷导航
-	categoryBar: true,
+    // 分类导航栏开关，在首页和归档页顶部显示分类快捷导航
+    categoryBar: true,
 
 	// 分类导航栏按钮样式
 	// "pill"：胶囊，主题色浅底圆角
@@ -245,7 +246,7 @@ export const siteConfig: SiteConfig = {
 		// 是否显示随机文章推荐
 		randomPosts: true,
 		// OpenGraph图片功能，注意开启后要渲染很长时间，不建议本地调试的时候开启
-		generateOgImages: true,
+		generateOgImages: false,
 		// 沉浸阅读配置：电脑端文章详情页右下角按钮，进入后只留文章卡片+左侧目录
 		immersiveReading: {
 			// 总开关：false 则不显示按钮

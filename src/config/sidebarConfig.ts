@@ -58,7 +58,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：音乐播放器
 			type: "music",
 			// 是否启用该组件
-			enable: true,
+			enable: false,
 			// 组件位置
 			position: "top",
 			// 是否在文章详情页显示
@@ -188,9 +188,9 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			specificConfig: {
 				ad: {
 					image: {
-						src: "/assets/images/ad/ad1.webp",
-						alt: "广告横幅",
-						link: "https://haoka.lot-ml.com/plugreg.html?agentid=1423316",
+						src: "",
+						alt: "",
+						link: "",
 						external: true,
 					},
 					// 是否允许关闭广告

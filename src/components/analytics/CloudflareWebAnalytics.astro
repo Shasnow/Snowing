@@ -1,0 +1,16 @@
+---
+interface Props {
+	token: string;
+}
+
+const { token } = Astro.props;
+---
+
+<!-- Cloudflare Web Analytics -->
+<script
+	is:inline
+	data-swup-ignore-script
+	defer
+	src="https://static.cloudflareinsights.com/beacon.min.js"
+	data-cf-beacon={JSON.stringify({ token })}
+></script>

@@ -31,6 +31,11 @@ export const analyticsConfig: AnalyticsConfig = {
 			blockSelector: "",
 		},
 	},
+	// Cloudflare Web Analytics 配置
+	cloudflareWebAnalytics: {
+		// Cloudflare Web Analytics Token（Beacon Token），在 Cloudflare Dashboard 的 Web Analytics 中获取
+		token: "",
+	},
 	// 51la 统计配置
 	la51Analytics: {
 		// 51la 统计 ID

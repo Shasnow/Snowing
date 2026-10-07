@@ -15,6 +15,9 @@ export type AnalyticsConfig = {
 			blockSelector?: string; // 需要完全排除录制的元素 CSS 选择器
 		};
 	};
+	cloudflareWebAnalytics?: {
+		token?: string; // Cloudflare Web Analytics Token（Beacon Token）
+	};
 	la51Analytics?: {
 		Id?: string; // 51la 统计 ID
 		sdkUrl?: string; // 自定义 SDK 地址，防止 DNS 污染，默认为 "//sdk.51.la/js-sdk-pro.min.js"

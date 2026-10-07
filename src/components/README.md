@@ -147,6 +147,7 @@ Firefly 项目中所有可复用组件的集中管理。组件按照功能和职
 - `GoogleAnalytics.astro` - Google Analytics
 - `La51Analytics.astro` - 51la 统计
 - `MicrosoftClarity.astro` - Microsoft Clarity
+- `CloudflareWebAnalytics.astro` - Cloudflare Web Analytics
 - `UmamiAnalytics.astro` - Umami 统计
 
 ### 🔧 misc/ - 杂项工具组件
